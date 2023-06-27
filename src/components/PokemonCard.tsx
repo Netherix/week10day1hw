@@ -11,10 +11,11 @@ const PokemonCard = () => {
   const [pokemonName, setPokemonName] = useState('');
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
 
+//   whenever you want to use an input from the user and store that info into a state variable, use code on line 15
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPokemonName(event.target.value);
+    setPokemonName(event.target.value); 
   };
-
+//   handles the form submission event and calls the fetchPokemon function(below) that retreives the info from the API
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     fetchPokemon();
@@ -29,13 +30,16 @@ const PokemonCard = () => {
         id: data.id,
         name: data.name,
         img: data.sprites.front_default,
+        // iterates over each element within the abilities array and returns those elements into a new array stored in the abilities variable
         abilities: data.abilities.map((ability: any) => ability.ability.name),
       });
+    //   if the try block fails, then the catch block runs and returns the error. try/catch allows you to catch errors without having that error break your entire app
     } catch (error) {
       console.error('Error fetching Pokemon:', error);
     }
   };
 
+//   the useEffect hook triggers an action (in this case fetchPokemon) after the component has been fully rendered onto the webpage. the dependancy array at the end tells react to run this hook only once
   useEffect(() => {
     fetchPokemon();
   }, []);
@@ -59,7 +63,7 @@ const PokemonCard = () => {
           </ul>
         </div>
       ) : (
-        <p>Loading...</p>
+        <p>Awaiting your input...</p>
       )}
     </div>
   );
